@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sign In Attendance</title>
+</head>
+<body onload="getLocation()">
+	<h1>Sign In Attendance</h1>
+	<p>Please sign in to confirm your attendance.</p>
+	<form id="signin-form">
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username" required><br><br>
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password" required><br><br>
+		<input type="hidden" id="latitude" name="latitude">
+		<input type="hidden" id="longitude" name="longitude">
+		<input type="submit" value="Sign In">
+	</form>
+	<script>
+		function getLocation() {
+			// Check if the Geolocation API is supported by the browser
+			if (navigator.geolocation) {
+				// Use the Geolocation API to get the user's current location
+				navigator.geolocation.getCurrentPosition(showPosition, showError);
+			} else {
+				// If the Geolocation API is not supported by the browser, show an error message
+				alert('Error: Geolocation is not supported by this browser.');
+			}
+		}
+
+		function showPosition(position) {
+			// Set the value of the latitude and longitude form fields to the user's current location
+			document.getElementById('latitude').value = position.coords.latitude;
+			document.getElementById('longitude').value = position.coords.longitude;
+		}
+
+		function showError(error) {
+			// If there is an error getting the user's location, show an error message
+			switch(error.code) {
+				case error.PERMISSION_DENIED:
+					alert('Error: User denied the request for Geolocation.');
+					break;
+				case error.POSITION_UNAVAILABLE:
+					alert('Error: Location information is unavailable.');
+					break;
+				case error.TIMEOUT:
+					alert('Error: The request to get user location timed out.');
+					break;
+				case error.UNKNOWN_ERROR:
+					alert('Error: An unknown error occurred.');
+					break;
+			}
+		}
+	</script>
+</body>
+</html>
